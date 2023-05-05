@@ -29,21 +29,14 @@ public class EmployeeController {
     }
     @GetMapping("/salary/min")
     public String showMinSalary(){
-        List<Employee> a = employeeService.getAllEmployees();
-        int salary=a.get(0).getSalary();
-        for (int i = 0; i < a.size(); i++) {
-            if(salary>a.get(i).getSalary()){
-                salary=a.get(i).getSalary();
-            }
-        }
-        return "Минимальная зарплата среди сотрудников: "+salary;
+        return "Максимальная зарплата среди сотрудников: "+employeeService.showSalaryMin();
     }
     @GetMapping("/salary/max")
     public String showMaxSalary(){
-        return employeeService.showSalaryMax();
+        return "Минимальная зарплата среди сотрудников: "+employeeService.showSalaryMax();
     }
     @GetMapping("/high-salary")
     public String showHighSalary(){
-        return employeeService.showHighSalary();
+        return "Сотрудники с зарплатой выше среднего" + employeeService.showHighSalary();
     }
 }
