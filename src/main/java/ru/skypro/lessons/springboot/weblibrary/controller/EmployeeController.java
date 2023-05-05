@@ -25,12 +25,7 @@ public class EmployeeController {
     }
     @GetMapping("/salary/sum")
     public String showSumSalary(){
-        List<Employee> a = employeeService.getAllEmployees();
-        int salary = 0;
-        for (int i = 0; i < a.size() ; i++) {
-            salary+= a.get(i).getSalary();
-        }
-        return "Сумма зарплат всех сотрудников: "+ salary;
+        return employeeService.showSumSalary();
     }
     @GetMapping("/salary/min")
     public String showMinSalary(){
@@ -45,29 +40,10 @@ public class EmployeeController {
     }
     @GetMapping("/salary/max")
     public String showMaxSalary(){
-        List<Employee> a = employeeService.getAllEmployees();
-        int salary=a.get(0).getSalary();
-        for (int i = 0; i < a.size(); i++) {
-            if (salary<a.get(i).getSalary()){
-                salary=a.get(i).getSalary();
-            }
-        }
-        return "Наибольшая зарплата среди сотрудников: "+salary;
+        return employeeService.showSalaryMax();
     }
     @GetMapping("/high-salary")
     public String showHighSalary(){
-        List<Employee> a = employeeService.getAllEmployees();
-        List<Employee> b = new ArrayList<>();
-        int count=0;
-        for (int i = 0; i < a.size(); i++) {
-            count+=a.get(i).getSalary();
-        }
-        count=count/a.size();
-        for (int i = 0; i < a.size(); i++) {
-            if (a.get(i).getSalary()>count){
-                b.add(a.get(i));
-            }
-        }
-        return "Сотрудники, зарплата которых больше средней: "+b;
+        return employeeService.showHighSalary();
     }
 }
