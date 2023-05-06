@@ -33,18 +33,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     public Employee showSalaryMax(){
         List<Employee> a = employeeRepository.getAllEmployees();
-        a.stream()
-                .sorted(Comparator.comparing(Employee::getSalary))
-                .collect(Collectors.toList());
-        return a.get(a.size()-1);
+        Employee b=a.stream()
+                .max(Comparator.comparing(Employee::getSalary))
+                .get();
+        return b;
     }
 
     public Employee showSalaryMin() {
         List<Employee> a = employeeRepository.getAllEmployees();
-        a.stream()
-                .sorted(Comparator.comparing(Employee::getSalary))
-                .collect(Collectors.toList());
-        return a.get(0);
+        Employee b=a.stream()
+                .min(Comparator.comparing(Employee::getSalary))
+                .get();
+        return b;
     }
 
     public List<Employee> showHighSalary() {
