@@ -2,22 +2,34 @@ package ru.skypro.lessons.springboot.weblibrary.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
-import ru.skypro.lessons.springboot.weblibrary.repository.EmployeeRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository {
-
-    // Коллекция для имитации данных
-    private final List<Employee> employeeList = List.of(
-            new Employee("Катя", 90_000),
-            new Employee("Дима", 120_000),
-            new Employee("Олег", 80_000),
-            new Employee("Вика", 165_000));
-
+    private List<Employee> employeeList= new ArrayList<>();
     @Override
     public List<Employee> getAllEmployees() {
         return employeeList;
     }
+
+    public void addEmployees(Employee employee){
+        employeeList.add(employee);
+     }
+     public void editEmployees(Employee employee,int id){
+         for (int i = 0; i < employeeList.size(); i++) {
+             if (employeeList.get(i).getId()==id){
+                 employeeList.get(i).setName(employee.getName());
+                 employeeList.get(i).setSalary(employee.getSalary());
+             }
+         }
+     }
+     public void deleteEmploees(Employee employee,int id){
+         for (int i = 0; i < employeeList.size(); i++) {
+             if (employeeList.get(i).getId()==id){
+                 employeeList.remove(i);
+             }
+         }
+     }
 }
