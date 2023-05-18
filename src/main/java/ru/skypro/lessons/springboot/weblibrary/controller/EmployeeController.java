@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Integer.parseInt;
+
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -46,8 +48,8 @@ public class EmployeeController {
     public void deleteEmployees(@PathVariable int id,@RequestBody Employee employee){
         employeeService.deleteEmployees(employee,id);
     }
-    @GetMapping("/salaryHigherThan{salary}")
-    public List<Employee> showHighSalary(@PathVariable int salary){
+    @GetMapping("/salaryHigherThan")
+    public List<Employee> showHighSalary(@RequestParam int salary){
         return employeeService.showHighSalary(salary);
     }
 }
