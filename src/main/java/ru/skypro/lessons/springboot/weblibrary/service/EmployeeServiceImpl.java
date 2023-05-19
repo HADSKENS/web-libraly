@@ -19,7 +19,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getAllEmployees() {
+    public Employee getEmployeesById(int id) {
+        return employeeRepository.getEmployeesById(id);
+    }
+    public List<Employee> getAllEmployees(){
         return employeeRepository.getAllEmployees();
     }
 
@@ -47,18 +50,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return b;
     }
 
-    public List<Employee> showHighSalary() {
+    public List<Employee> showHighSalary(int salary) {
         List<Employee> a = employeeRepository.getAllEmployees();
         List<Employee> b = new ArrayList<>();
-        int count=0;
-        for (int i = 0; i < a.size(); i++) {
-            count+=a.get(i).getSalary();
-        }
-        count=count/a.size();
-        int finalCount = count;
         b=a.stream()
-                .filter(i -> i.getSalary()> finalCount)
+                .filter(i -> i.getSalary()> salary)
                 .collect(Collectors.toList());
         return b;
+    }
+
+    public void addEmployees(Employee employee) {
+        employeeRepository.addEmployees(employee);
+    }
+    public void editEmployees(Employee employee,int id){
+       employeeRepository.editEmployees(employee,id);
+    }
+    public void deleteEmployees(Employee employee,int id){
+        employeeRepository.deleteEmploees(employee,id);
     }
 }
