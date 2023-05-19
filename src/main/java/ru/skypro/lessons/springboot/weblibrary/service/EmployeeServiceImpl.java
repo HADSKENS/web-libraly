@@ -19,7 +19,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getAllEmployees() {
+    public Employee getEmployeesById(int id) {
+        return employeeRepository.getEmployeesById(id);
+    }
+    public List<Employee> getAllEmployees(){
         return employeeRepository.getAllEmployees();
     }
 

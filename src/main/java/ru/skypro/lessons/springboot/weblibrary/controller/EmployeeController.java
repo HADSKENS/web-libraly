@@ -19,8 +19,12 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+    @GetMapping("{id}")
+    public Employee showCounter(@PathVariable int id) {
+        return employeeService.getEmployeesById(id);
+    }
     @GetMapping("/get")
-    public List<Employee> showCounter() {
+    public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
     }
     @GetMapping("/salary/sum")

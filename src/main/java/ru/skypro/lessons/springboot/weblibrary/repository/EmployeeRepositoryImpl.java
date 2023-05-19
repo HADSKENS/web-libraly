@@ -10,9 +10,19 @@ import java.util.List;
 public class EmployeeRepositoryImpl implements EmployeeRepository {
     private List<Employee> employeeList= new ArrayList<>();
     @Override
-    public List<Employee> getAllEmployees() {
-        return employeeList;
+    public Employee getEmployeesById(int id) {
+        Employee a = null;
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i).getId()==id){
+                a = employeeList.get(i);
+            }
+        }
+        return a;
     }
+    public List<Employee> getAllEmployees() {
+    return employeeList;
+    }
+
 
     public void addEmployees(Employee employee){
         employeeList.add(employee);
