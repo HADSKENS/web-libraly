@@ -2,16 +2,10 @@ package ru.skypro.lessons.springboot.weblibrary.service;
 
 import ru.skypro.lessons.springboot.weblibrary.Employee;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface EmployeeService {
-    List<Employee> getAllEmployees();
-    Employee getEmployeesById(int id);
-    String showSumSalary();
-    Employee showSalaryMax();
-    Employee showSalaryMin();
-    List<Employee> showHighSalary(int salary);
-    void addEmployees(Employee employee);
-    void editEmployees(Employee employee,int id);
-    void deleteEmployees(Employee employee,int id);
+public interface EmployeeService  {
+    void addEmployee(Employee employee);
+    Optional<Employee> getEmployeeById(int id);
+    Iterable<Employee> getAll();
 }

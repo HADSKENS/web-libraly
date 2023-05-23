@@ -4,9 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
 import ru.skypro.lessons.springboot.weblibrary.service.EmployeeService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
@@ -19,41 +17,18 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-    @GetMapping("{id}")
-    public Employee showCounter(@PathVariable int id) {
-        return employeeService.getEmployeesById(id);
-    }
-    @GetMapping("/get")
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAllEmployees();
-    }
-    @GetMapping("/salary/sum")
-    public String showSumSalary(){
-        return employeeService.showSumSalary();
-    }
-    @GetMapping("/salary/min")
-    public String showMinSalary(){
-        return "Минимальная зарплата среди сотрудников: "+employeeService.showSalaryMin();
-    }
-    @GetMapping("/salary/max")
-    public String showMaxSalary(){
-        return "Максимальная зарплата среди сотрудников: "+employeeService.showSalaryMax();
+    @GetMapping("/{id}")
+    public Optional<Employee> getEmployeesById(@PathVariable int id) {
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping
     public void addEmployees(@RequestBody Employee employee){
-        employeeService.addEmployees(employee);
+        employeeService.addEmployee(employee);
     }
-    @PutMapping("/{id}")
-    public void editEmployees(@PathVariable int id,@RequestBody Employee employee){
-        employeeService.editEmployees(employee,id);
+    @GetMapping("/get")
+   public Iterable<Employee> getAll(){
+        return employeeService.getAll();
     }
-    @DeleteMapping("/{id}")
-    public void deleteEmployees(@PathVariable int id,@RequestBody Employee employee){
-        employeeService.deleteEmployees(employee,id);
-    }
-    @GetMapping("/salaryHigherThan")
-    public List<Employee> showHighSalary(@RequestParam int salary){
-        return employeeService.showHighSalary(salary);
-    }
+
 }
