@@ -79,21 +79,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             page=page*10+9;
             if(a.size()<page){
                 for (int i = page-9; i < a.size(); i++) {
-                    int number=0;
-                    back.add(number,a.get(i));
-                    number++;
+                    back.add(a.get(i));
                 }
             }
             else {
                 for (int i = page - 9; i < page+1; i++) {
-                    int number = 0;
-                    back.add(number, a.get(i));
-                    number++;
+                    back.add(a.get(i));
                 }
             }
-            return back.stream()
-                    .sorted(Comparator.comparing(EmployeeDTO::getId))
-                    .collect(Collectors.toList());
+            return back;
         }
     }
 }
