@@ -50,7 +50,7 @@ public class EmployeeController {
     }
     @GetMapping("/page")
     public List<EmployeeDTO> pageEmployee(@RequestParam int page){
-
+        return employeeService.pageEmployee(page);
     }
 
 }

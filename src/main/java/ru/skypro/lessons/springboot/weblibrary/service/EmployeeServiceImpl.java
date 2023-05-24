@@ -74,19 +74,61 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDTO> back = new ArrayList<>();
         if (page<0){
             return null;
-        } if (page==0) {
-            page=10;
-            for (int i = 0; i < page; i++) {
-                back.add(i,a.get(i));
+        }
+        if (page==0) {
+            if (a.size()<10){
+                for (int i = 0; i < a.size(); i++) {
+                    back.add(i,a.get(i));
+                }
+            }
+            else {
+
+                for (int i = 0; i < 10; i++) {
+                    back.add(i, a.get(i));
+                }
             }
             return back;
         }
-        else{
-            page=page*10;
-            for (int i = page-10; i < page; i++) {
-                back.add(i,a.get(i));
+        if (page==1){
+            if (a.size()<19){
+                for (int i = 10; i < a.size(); i++) {
+                    int number=0;
+                    back.add(number,a.get(i));
+                    number++;
+                }
             }
-            return back;
+            else {
+                for (int i = 10; i < 20; i++) {
+                    int number=0;
+                    back.add(number,a.get(i));
+                    number++;
+                }
+            }
+            return back.stream()
+                    .sorted(Comparator.comparing(EmployeeDTO::getId))
+                    .collect(Collectors.toList());
+        }
+        else{
+            page=page*10+9;
+            System.out.println(page);
+            System.out.println(a.size());
+            if(a.size()<page){
+                for (int i = page-9; i < a.size(); i++) {
+                    int number=0;
+                    back.add(number,a.get(i));
+                    number++;
+                }
+            }
+            else {
+                for (int i = page - 9; i < page; i++) {
+                    int number = 0;
+                    back.add(number, a.get(i));
+                    number++;
+                }
+            }
+            return back.stream()
+                    .sorted(Comparator.comparing(EmployeeDTO::getId))
+                    .collect(Collectors.toList());
         }
     }
 }
