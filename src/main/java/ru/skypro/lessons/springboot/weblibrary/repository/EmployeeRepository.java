@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
-import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 
 import java.util.List;
 
