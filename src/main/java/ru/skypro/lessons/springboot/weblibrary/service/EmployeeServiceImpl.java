@@ -1,12 +1,12 @@
 package ru.skypro.lessons.springboot.weblibrary.service;
 
-import org.apache.logging.log4j.util.PropertySource;
 import org.springframework.stereotype.Service;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
+import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.weblibrary.repository.EmployeeRepository;
 
-import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,53 +19,75 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee getEmployeesById(int id) {
-        return employeeRepository.getEmployeesById(id);
-    }
-    public List<Employee> getAllEmployees(){
-        return employeeRepository.getAllEmployees();
+
+    @Override
+    public void addEmployee(Employee employee) {
+        employeeRepository.save(employee);
     }
 
-    public String showSumSalary(){
-        int count=0;
-        List<Employee> a = employeeRepository.getAllEmployees();
-        for (int i = 0; i < a.size(); i++) {
-            count+=a.get(i).getSalary();
-        }
-        return "Сумма зарплат всех сотрудников: "+ count;
-    }
-    public Employee showSalaryMax(){
-        List<Employee> a = employeeRepository.getAllEmployees();
-        Employee b=a.stream()
-                .max(Comparator.comparing(Employee::getSalary))
-                .get();
-        return b;
-    }
-
-    public Employee showSalaryMin() {
-        List<Employee> a = employeeRepository.getAllEmployees();
-        Employee b=a.stream()
-                .min(Comparator.comparing(Employee::getSalary))
-                .get();
-        return b;
-    }
-
-    public List<Employee> showHighSalary(int salary) {
-        List<Employee> a = employeeRepository.getAllEmployees();
-        List<Employee> b = new ArrayList<>();
-        b=a.stream()
-                .filter(i -> i.getSalary()> salary)
+    @Override
+    public List<EmployeeDTO> getEmployeeById(int id) {
+        return employeeRepository.findEmployeeById(id).stream()
+                .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());
-        return b;
     }
 
-    public void addEmployees(Employee employee) {
-        employeeRepository.addEmployees(employee);
+    @Override
+    public List<EmployeeDTO> getAll() {
+        return employeeRepository.findAllEmployees().stream()
+                .map(EmployeeDTO::fromEmployee)
+                .collect(Collectors.toList());
     }
-    public void editEmployees(Employee employee,int id){
-       employeeRepository.editEmployees(employee,id);
+
+    @Override
+    public void deleteEmployeeById(int id) {
+        employeeRepository.deleteById(id);
     }
-    public void deleteEmployees(Employee employee,int id){
-        employeeRepository.deleteEmploees(employee,id);
+
+    @Override
+    public List<EmployeeDTO> getHighestSalary() {
+        return employeeRepository.getHighestSalary().stream()
+                .sorted(Comparator.comparing(Employee::getSalary))
+                .map(EmployeeDTO::fromEmployee)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> allEmployeeFromPosition(int position) {
+        return employeeRepository.allEmployeeFromPosition(position).stream()
+                .map(EmployeeDTO::fromEmployee)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> employeeFullInfo(int id) {
+        return employeeRepository.employeeFullInfo(id).stream()
+                .map(EmployeeDTO::fromEmployee)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> pageEmployee(int page) {
+        List <EmployeeDTO> a =employeeRepository.findAllEmployees().stream()
+                .map(EmployeeDTO::fromEmployee)
+                .collect(Collectors.toList());
+        List<EmployeeDTO> back = new ArrayList<>();
+        if (page<0){
+            return null;
+        }
+        else{
+            page=page*10+9;
+            if(a.size()<page){
+                for (int i = page-9; i < a.size(); i++) {
+                    back.add(a.get(i));
+                }
+            }
+            else {
+                for (int i = page - 9; i < page+1; i++) {
+                    back.add(a.get(i));
+                }
+            }
+            return back;
+        }
     }
 }
