@@ -1,23 +1,26 @@
 package ru.skypro.lessons.springboot.weblibrary.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
+import ru.skypro.lessons.springboot.weblibrary.Report;
 import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.weblibrary.service.EmployeeService;
+import ru.skypro.lessons.springboot.weblibrary.service.ReportService;
 
 import java.util.List;
-import java.util.Optional;
-
-import static java.lang.Integer.parseInt;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final ReportService reportService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ReportService reportService) {
         this.employeeService = employeeService;
+        this.reportService = reportService;
     }
     @GetMapping("/{id}")
     public List<EmployeeDTO> getEmployeesById(@PathVariable int id) {
@@ -52,5 +55,18 @@ public class EmployeeController {
     public List<EmployeeDTO> pageEmployee(@RequestParam int page){
         return employeeService.pageEmployee(page);
     }
+    @PostMapping(value = "/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadFile(@RequestParam("file") MultipartFile file) {
 
+        System.out.println("Размер файла: " + file.getSize() + " байт");
+
+    }
+    @PostMapping("/report")
+    public int createReport(){
+        return reportService.createReport();
+    }
+    @GetMapping("/report/{id}")
+    public Report getReportById(@PathVariable int id){
+        return reportService.getReportById(id);
+    }
 }

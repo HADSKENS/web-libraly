@@ -1,14 +1,19 @@
 package ru.skypro.lessons.springboot.weblibrary.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
 import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.weblibrary.repository.EmployeeRepository;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -46,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDTO> getHighestSalary() {
-        return employeeRepository.getHighestSalary().stream()
+        return employeeRepository.findAllEmployees().stream()
                 .sorted(Comparator.comparing(Employee::getSalary))
                 .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());
@@ -88,6 +93,18 @@ public class EmployeeServiceImpl implements EmployeeService {
                 }
             }
             return back;
+        }
+    }
+
+    @Override
+    public void uploadFileEmployees(MultipartFile file) throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(file.getName());
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        List<EmployeeDTO> a = null;
+        a.add((EmployeeDTO) objectInputStream.readObject());
+        for (int i = 0; i < a.size(); i++) {
+            Employee b = a.get(i).toEmployee();
+            employeeRepository.save(b);
         }
     }
 }
