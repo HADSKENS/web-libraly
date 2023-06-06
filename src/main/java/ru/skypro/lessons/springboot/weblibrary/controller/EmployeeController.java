@@ -4,23 +4,18 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
-import ru.skypro.lessons.springboot.weblibrary.Report;
 import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.weblibrary.service.EmployeeService;
-import ru.skypro.lessons.springboot.weblibrary.service.ReportService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/admin/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final ReportService reportService;
-
-    public EmployeeController(EmployeeService employeeService, ReportService reportService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.reportService = reportService;
     }
     @GetMapping("/{id}")
     public List<EmployeeDTO> getEmployeesById(@PathVariable int id) {
@@ -61,12 +56,12 @@ public class EmployeeController {
         System.out.println("Размер файла: " + file.getSize() + " байт");
 
     }
-    @PostMapping("/report")
-    public int createReport(){
-        return reportService.createReport();
-    }
-    @GetMapping("/report/{id}")
-    public Report getReportById(@PathVariable int id){
-        return reportService.getReportById(id);
-    }
+//    @PostMapping("/report")
+//    public int createReport(){
+//        return reportService.createReport();
+//    }
+//    @GetMapping("/report/{id}")
+//    public Report getReportById(@PathVariable int id){
+//        return reportService.getReportById(id);
+//    }
 }
