@@ -1,10 +1,9 @@
 package ru.skypro.lessons.springboot.weblibrary;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@OpenAPIDefinition
 @SpringBootApplication
 public class WebLibraryApplication {
 

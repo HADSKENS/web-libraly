@@ -10,7 +10,7 @@ import ru.skypro.lessons.springboot.weblibrary.service.EmployeeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -22,7 +22,7 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public void addEmployees(@RequestBody Employee employee){
         employeeService.addEmployee(employee);
     }
@@ -30,7 +30,7 @@ public class EmployeeController {
    public List<EmployeeDTO> getAll(){
         return employeeService.getAll();
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/admin/delete/{id}")
     public void deleteEmployeeByid(@PathVariable int id){
         employeeService.deleteEmployeeById(id);
     }
@@ -50,7 +50,7 @@ public class EmployeeController {
     public List<EmployeeDTO> pageEmployee(@RequestParam int page){
         return employeeService.pageEmployee(page);
     }
-    @PostMapping(value = "/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/admin/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void uploadFile(@RequestParam("file") MultipartFile file) {
 
         System.out.println("Размер файла: " + file.getSize() + " байт");
