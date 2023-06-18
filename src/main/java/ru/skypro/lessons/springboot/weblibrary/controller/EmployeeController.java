@@ -52,16 +52,7 @@ public class EmployeeController {
     }
     @PostMapping(value = "/admin/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void uploadFile(@RequestParam("file") MultipartFile file) {
-
         System.out.println("Размер файла: " + file.getSize() + " байт");
 
     }
-//    @PostMapping("/report")
-//    public int createReport(){
-//        return reportService.createReport();
-//    }
-//    @GetMapping("/report/{id}")
-//    public Report getReportById(@PathVariable int id){
-//        return reportService.getReportById(id);
-//    }
 }

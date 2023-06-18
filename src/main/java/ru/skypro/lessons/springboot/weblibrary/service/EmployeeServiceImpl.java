@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springboot.weblibrary.service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
@@ -13,12 +14,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -27,11 +28,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addEmployee(Employee employee) {
+        logger.info("Was invoked method for create employee"+employee);
         employeeRepository.save(employee);
     }
 
     @Override
     public List<EmployeeDTO> getEmployeeById(int id) {
+        logger.error("There is no employee with id"+id);
         return employeeRepository.findEmployeeById(id).stream()
                 .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());
@@ -46,6 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployeeById(int id) {
+        logger.error("There is no employee with id"+id);
         employeeRepository.deleteById(id);
     }
 
@@ -66,6 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDTO> employeeFullInfo(int id) {
+        logger.error("There is no employee with id"+id);
         return employeeRepository.employeeFullInfo(id).stream()
                 .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());
@@ -73,6 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDTO> pageEmployee(int page) {
+        logger.error("There is no employee with id"+page);
         List <EmployeeDTO> a =employeeRepository.findAllEmployees().stream()
                 .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());

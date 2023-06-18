@@ -1,5 +1,5 @@
 package ru.skypro.lessons.springboot.weblibrary;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="report")
