@@ -25,7 +25,6 @@ databaseChangeLog:
               - column:
                   name: position
                   type: int
-                  foreign key: (position) references position (id)
 
   - changeSet:
       id: 2
@@ -59,7 +58,6 @@ databaseChangeLog:
               - column:
                   name: username
                   type: varchar
-                  foreign key: (username) references users (username)
               - column:
                   name: authority
                   type: varchar
@@ -87,3 +85,27 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 5
+      author: developer
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: position
+            baseTableName: authorities
+            constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: username
+            referencedTableName: users
+  - changeSet:
+      id: 6
+      author: developer
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: username
+            baseTableName: employee
+            constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: position
