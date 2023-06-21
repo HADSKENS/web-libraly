@@ -90,7 +90,7 @@ databaseChangeLog:
       author: developer
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: position
+            baseColumnNames: username
             baseTableName: authorities
             constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
             deferrable: false
@@ -102,7 +102,7 @@ databaseChangeLog:
       author: developer
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: username
+            baseColumnNames: position
             baseTableName: employee
             constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
             deferrable: false
