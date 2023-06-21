@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1 # идентификатор набора изменений
+      id: 1-2 # идентификатор набора изменений
       author: developer # имя разработчика, который добавил набор изменений
       changes: # список изменений в этом наборе
         - createTable: # команда liquibase — создает таблицу
@@ -27,7 +27,7 @@ databaseChangeLog:
                   type: int
 
   - changeSet:
-      id: 2
+      id: 2-2
       author: developer
       changes:
         - createTable:
@@ -38,6 +38,7 @@ databaseChangeLog:
                   type: varchar
                   constraints:
                     nullable: false
+                    primaryKey: true
               - column:
                   name: password
                   type: varchar
@@ -49,7 +50,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
   - changeSet:
-      id: 3
+      id: 3-2
       author: developer
       changes:
         - createTable:
@@ -58,18 +59,16 @@ databaseChangeLog:
               - column:
                   name: username
                   type: varchar
+                  constraints:
+                    nullable: false
+                    primaryKey: true
               - column:
                   name: authority
                   type: varchar
                   constraints:
                     nullable: false
-              - column:
-                  name: enabled
-                  type: int
-                  constraints:
-                    nullable: false
   - changeSet:
-      id: 4
+      id: 4-2
       author: developer
       changes:
         - createTable:
@@ -85,8 +84,9 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
+                    primaryKey: true
   - changeSet:
-      id: 5
+      id: 5-2
       author: developer
       changes:
         - addForeignKeyConstraint:
@@ -98,7 +98,7 @@ databaseChangeLog:
             referencedColumnNames: username
             referencedTableName: users
   - changeSet:
-      id: 6
+      id: 6-2
       author: developer
       changes:
         - addForeignKeyConstraint:
