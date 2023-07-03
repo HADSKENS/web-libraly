@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl {
 
     private final EmployeeRepository employeeRepository;
     Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
@@ -26,34 +26,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
     public void addEmployee(Employee employee) {
         logger.info("Was invoked method for create employee"+employee);
         employeeRepository.save(employee);
     }
 
-    @Override
-    public List<EmployeeDTO> getEmployeeById(int id) {
+    public Employee getEmployeeById(int id) {
         logger.error("There is no employee with id"+id);
-        return employeeRepository.findEmployeeById(id).stream()
-                .map(EmployeeDTO::fromEmployee)
-                .collect(Collectors.toList());
+        return employeeRepository.findEmployeeById(id);
     }
 
-    @Override
     public List<EmployeeDTO> getAll() {
         return employeeRepository.findAllEmployees().stream()
                 .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public void deleteEmployeeById(int id) {
         logger.error("There is no employee with id"+id);
         employeeRepository.deleteById(id);
     }
 
-    @Override
     public List<EmployeeDTO> getHighestSalary() {
         return employeeRepository.findAllEmployees().stream()
                 .sorted(Comparator.comparing(Employee::getSalary))
@@ -61,14 +54,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<EmployeeDTO> allEmployeeFromPosition(int position) {
         return employeeRepository.allEmployeeFromPosition(position).stream()
                 .map(EmployeeDTO::fromEmployee)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<EmployeeDTO> employeeFullInfo(int id) {
         logger.error("There is no employee with id"+id);
         return employeeRepository.employeeFullInfo(id).stream()
@@ -76,7 +67,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<EmployeeDTO> pageEmployee(int page) {
         logger.error("There is no employee with id"+page);
         List <EmployeeDTO> a =employeeRepository.findAllEmployees().stream()
@@ -102,7 +92,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    @Override
     public void uploadFileEmployees(MultipartFile file) throws IOException, ClassNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(file.getName());
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
