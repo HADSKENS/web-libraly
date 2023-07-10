@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
 import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
-import ru.skypro.lessons.springboot.weblibrary.service.EmployeeService;
+import ru.skypro.lessons.springboot.weblibrary.service.EmployeeServiceImpl;
 
 import java.util.List;
 
@@ -13,12 +13,12 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
-    public EmployeeController(EmployeeService employeeService) {
+    private final EmployeeServiceImpl employeeService;
+    public EmployeeController(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
     @GetMapping("/{id}")
-    public List<EmployeeDTO> getEmployeesById(@PathVariable int id) {
+    public Employee getEmployeesById(@PathVariable int id) {
         return employeeService.getEmployeeById(id);
     }
 
