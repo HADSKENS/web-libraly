@@ -47,7 +47,7 @@ public class EmployeeServiceTest {
     @Test
     public void getEmployeeByIdTest(){
         when(repositoryMock.findEmployeeById(a.getId()))
-                .thenReturn(a);
+                .thenReturn((List<Employee>) a);
 
         Assertions.assertEquals(out.getEmployeeById(a.getId()),a);
     }
@@ -68,7 +68,7 @@ public class EmployeeServiceTest {
     public void addEmployeeTest(){
         out.addEmployee(a);
         when(repositoryMock.findEmployeeById(a.getId()))
-                .thenReturn(a);
+                .thenReturn((List<Employee>) a);
         Assertions.assertEquals(out.getEmployeeById(a.getId()),a);
         out.deleteEmployeeById(a.getId());
     }

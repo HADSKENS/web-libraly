@@ -10,6 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -20,62 +23,103 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class ControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    @Test
-    void contextLoads() {
-    }
     @Test
     void addEmployeeTest() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("1",1);
-        mockMvc.perform(post("/employees")
+        jsonObject.put("id",1);
+        jsonObject.put("name","test_name");
+        jsonObject.put("salary",1);
+        jsonObject.put("position",1);
+        mockMvc.perform(post("/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value(1));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/get"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].name").value(1));
+                .andExpect(jsonPath("$[0].name").value("test_name"));
+
+
     }
     @Test
     void getAllTest() throws Exception{
-        mockMvc.perform(get("/employees/get"))
+        mockMvc.perform(get("/get"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$").isNotEmpty());
+                .andExpect(jsonPath("$").isEmpty());
     }
     @Test
     void deleteTest() throws Exception{
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", "test_name");
-
-        String createdUserString = mockMvc.perform(post("/employees")
+        jsonObject.put("name","test_name");
+        jsonObject.put("salary",1);
+        jsonObject.put("position",1);
+        mockMvc.perform(post("/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("test_name"))
-                .andReturn().getResponse().getContentAsString();
-        JSONObject createdUser = new JSONObject(createdUserString);
-        long id = createdUser.getLong("id");
+                .andExpect(status().isOk());
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("id",1);
+        jsonObject2.put("name","test_name");
+        long id = jsonObject2.getLong("id");
+        mockMvc.perform(delete("/delete/{id}", id))
+                .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/employees/delete/{id}", id))
-                .andExpect(status().isNoContent());
-
-        mockMvc.perform(get("/employees/get"))
+        mockMvc.perform(get("/get"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(0));
+    }
+    @Test
+    void getEmployeesByIdTest() throws Exception{
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name","test_name");
+        jsonObject.put("salary",1);
+        jsonObject.put("position",1);
+        mockMvc.perform(post("/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonObject.toString()))
+                .andExpect(status().isOk());
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("name","test_name2");
+        jsonObject2.put("salary",1);
+        jsonObject2.put("position",1);
+        mockMvc.perform(post("/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonObject2.toString()))
+                .andExpect(status().isOk());
+        long id = 2;
+        mockMvc.perform(get("/{id}",id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("test_name2"));
+    }
+    @Test
+    void getHighestSalary() throws Exception{
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name","test_name");
+        jsonObject.put("salary",3);
+        jsonObject.put("position",1);
+        mockMvc.perform(post("/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonObject.toString()))
+                .andExpect(status().isOk());
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("name","test_name2");
+        jsonObject2.put("salary",1);
+        jsonObject2.put("position",1);
+        mockMvc.perform(post("/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonObject2.toString()))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/withHighestSalary"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.salary").value(3));
     }
 }
