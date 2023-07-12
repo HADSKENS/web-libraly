@@ -1,14 +1,17 @@
 package ru.skypro.lessons.springboot.weblibrary;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import ru.skypro.lessons.springboot.weblibrary.repository.EmployeeRepository;
 
-@OpenAPIDefinition
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+@SpringBootApplication
 public class WebLibraryApplication {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         SpringApplication.run(WebLibraryApplication.class, args);
     }
 

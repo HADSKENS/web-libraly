@@ -2,9 +2,7 @@ package ru.skypro.lessons.springboot.weblibrary.dto;
 
 import ru.skypro.lessons.springboot.weblibrary.Employee;
 
-import java.io.Serializable;
-
-public class EmployeeDTO implements Serializable {
+public class EmployeeDTO {
     private int id;
     private String name;
     private int salary;
@@ -59,13 +57,4 @@ public class EmployeeDTO implements Serializable {
         this.salary = salary;
     }
 
-    @Override
-    public String toString() {
-        return "EmployeeDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", salary=" + salary +
-                ", position=" + position +
-                '}';
-    }
 }

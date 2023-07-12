@@ -1,28 +1,28 @@
 package ru.skypro.lessons.springboot.weblibrary.controller;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
 import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.weblibrary.service.EmployeeServiceImpl;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @RestController
-@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeServiceImpl employeeService;
+
     public EmployeeController(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
     @GetMapping("/{id}")
-    public Employee getEmployeesById(@PathVariable int id) {
+    public List<EmployeeDTO> getEmployeesById(@PathVariable int id) {
         return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping("/admin")
+    @PostMapping("/add")
     public void addEmployees(@RequestBody Employee employee){
         employeeService.addEmployee(employee);
     }
@@ -30,8 +30,8 @@ public class EmployeeController {
    public List<EmployeeDTO> getAll(){
         return employeeService.getAll();
     }
-    @DeleteMapping("/admin/delete/{id}")
-    public void deleteEmployeeByid(@PathVariable int id){
+    @DeleteMapping("/delete/{id}")
+    public void deleteEmployeeById(@PathVariable int id){
         employeeService.deleteEmployeeById(id);
     }
     @GetMapping("/withHighestSalary")
@@ -50,9 +50,5 @@ public class EmployeeController {
     public List<EmployeeDTO> pageEmployee(@RequestParam int page){
         return employeeService.pageEmployee(page);
     }
-    @PostMapping(value = "/admin/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void uploadFile(@RequestParam("file") MultipartFile file) {
-        System.out.println("Размер файла: " + file.getSize() + " байт");
 
-    }
 }

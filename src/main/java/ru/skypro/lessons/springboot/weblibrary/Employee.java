@@ -1,8 +1,9 @@
 package ru.skypro.lessons.springboot.weblibrary;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
+@Table (name ="employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

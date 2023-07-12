@@ -4,16 +4,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import ru.skypro.lessons.springboot.weblibrary.Employee;
-import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
 
 import java.util.List;
 
 public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
-
-
     @Query("SELECT e FROM Employee e")
     List<Employee> findAllEmployees();
-    Employee findEmployeeById(int id);
+    @Query(value = "SELECT * FROM employee WHERE id =:id",
+    nativeQuery = true)
+    List<Employee> findEmployeeById(@Param("id") int id);
+    @Query("SELECT e FROM Employee e")
+    List<Employee> getHighestSalary();
     @Query (value = "SELECT employee.id,employee.name,employee.salary,employee.position,position.position_name FROM position JOIN employee ON position.position_id=employee.position AND employee.position=:position",
     nativeQuery = true)
     List<Employee> allEmployeeFromPosition(@Param("position") int position);
